@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandRunner.cs" />
     <Compile Include="ICalculator.cs" />
     <Compile Include="NSubTutorial.cs" />
     <Compile Include="Program.cs" />
