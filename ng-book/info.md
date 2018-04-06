@@ -204,3 +204,16 @@ Notice that we suffix our TypeScript file with .ts instead of .js The problem is
   create src/app/user-item/user-item.component.css (0 bytes)
   update src/app/app.module.ts (508 bytes)
 
+## ng generate component user-list
+  create src/app/user-list/user-list.component.html (28 bytes)
+  create src/app/user-list/user-list.component.spec.ts (643 bytes)
+  create src/app/user-list/user-list.component.ts (280 bytes)
+  create src/app/user-list/user-list.component.css (0 bytes)
+  update src/app/app.module.ts (600 bytes)
+
+
+NgFor Source code:
+  https://github.com/angular/angular/blob/master/packages/common/src/directives/ng_for_of.ts
+
+
+  
