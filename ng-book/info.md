@@ -216,4 +216,16 @@ NgFor Source code:
   https://github.com/angular/angular/blob/master/packages/common/src/directives/ng_for_of.ts
 
 
-  
+
+
+# angular-reddit
+ng new angular-reddit
+
+For this project we’re going to be using Semantic-UI20 to help with the styling. Semantic-UI
+is a CSS framework, similar to Zurb Foundation21 or Twitter Bootstrap22. We’ve included
+it in the sample code download so all you need to do is copy over the files specified above
+
+http://semantic-ui.com/
+http://foundation.zurb.com
+http://getbootstrap.com
+
