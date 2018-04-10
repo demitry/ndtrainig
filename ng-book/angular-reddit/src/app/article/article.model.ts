@@ -40,5 +40,6 @@ Checkout our ArticleComponent component definition now: it’s so short! We’ve
 lot of logic out of our component and into our models. The corresponding MVC guideline
 here might be Fat Models, Skinny Controllers25. The idea is that we want to move most of
 our logic to our models so that our components do the minimum work possible.
+http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model
 */
 }

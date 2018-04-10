@@ -63,6 +63,9 @@ voteUp() function to have to knowledge about that sort of view-specific API. Tha
 Article model should allow voting apart from the specific view
 */
 
+/*
+http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model
+*/
   ngOnInit() {
   }
 
