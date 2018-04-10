@@ -229,3 +229,15 @@ http://semantic-ui.com/
 http://foundation.zurb.com
 http://getbootstrap.com
 
+
+
+
+## npm install -g gulp
+npm WARN deprecated graceful-fs@3.0.11: please upgrade to graceful-fs 4 for compatibility with current and future versions of Node.js
+npm WARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+npm WARN deprecated minimatch@0.2.14: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+npm WARN deprecated graceful-fs@1.2.3: please upgrade to graceful-fs 4 for compatibility with current and future versions of Node.js
+npm WARN deprecated natives@1.1.3: This module relies on Node.js's internals and will break at some point. Do not use it, and update to graceful-fs@4.x.
+C:\Users\Dmitry\AppData\Roaming\npm\gulp -> C:\Users\Dmitry\AppData\Roaming\npm\node_modules\gulp\bin\gulp.js
++ gulp@3.9.1
+added 103 packages from 73 contributors, removed 22 packages, updated 48 packages and moved 1 package in 16.759s
