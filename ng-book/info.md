@@ -241,3 +241,8 @@ npm WARN deprecated natives@1.1.3: This module relies on Node.js's internals and
 C:\Users\Dmitry\AppData\Roaming\npm\gulp -> C:\Users\Dmitry\AppData\Roaming\npm\node_modules\gulp\bin\gulp.js
 + gulp@3.9.1
 added 103 packages from 73 contributors, removed 22 packages, updated 48 packages and moved 1 package in 16.759s
+
+
+## Skinny Controller, Fat Model
+http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model
+
