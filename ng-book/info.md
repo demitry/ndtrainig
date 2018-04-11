@@ -304,3 +304,25 @@ d:\NDTRAINING\ndtrainig\ng-book\angular-reddit\dist (master)
 > https://dist-luiiwybzhd.now.sh [in clipboard] [7s]
 > Synced 2 files (158.61KB) [7s]
 > Deployment complete!
+
+
+Trying it out with a REPL
+To play with the examples in this chapter, let’s install a nice little utility called TSUN34 (TypeScript
+Upgraded Node
+
+npm install -g tsun
+
+## Inheritance
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
+
+
+## Fat Arrow Functions
+
+// ES5-like example
+var data = ['Alice Green', 'Paul Pfifer', 'Louis Blakenship'];
+data.forEach(function(line) { console.log(line); });
+
+//However with the => syntax we can instead rewrite it like so:
+// Typescript example
+var data2: string[] = ['Alice Green', 'Paul Pfifer', 'Louis Blakenship'];
+data2.forEach( (line) => console.log(line) );
