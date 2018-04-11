@@ -263,3 +263,44 @@ here
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort 
 
+## Deployment
+
+• compile all of our TypeScript code into JavaScript (which the browser can read)
+• bundle all of our JavaScript code files into one or two files
+• and then upload our JavaScript, HTML, CSS, and images to a server
+
+ng build --target=production --base-href /
+ls -ls dist
+
+
+### Uploading to a Server
+There are lots of ways to host your HTML and JavaScript. For this demo, we’re going to use the
+easiest way possible: now
+https://zeit.co/now
+
+### Installing now
+We can install now using npm:
+npm install -g now
+To deploy a site with now is very easy:
+cd dist # change into the dist folder
+now
+
+### WOW! Oh! How?!
+
+d:\NDTRAINING\ndtrainig\ng-book\angular-reddit\dist (master)
+λ now
+> No existing credentials found. Please log in:
+> We sent an email to dpoluektov@gmail.com. Please follow the steps provided
+  inside it and make sure the security code matches Rare Tasmanian Devil.
+√ Email confirmed
+√ Fetched your personal details
+> Ready! Authentication token and personal details saved in "~\.now"
+
+d:\NDTRAINING\ndtrainig\ng-book\angular-reddit\dist (master)
+λ now
+> Deploying d:\NDTRAINING\ndtrainig\ng-book\angular-reddit\dist under dpoluektov@gmail.com
+> Your deployment's code and logs will be publicly accessible because you are subscribed to the OSS plan.
+> NOTE: You can use `now --public` or upgrade your plan (https://zeit.co/account/plan) to skip this prompt
+> https://dist-luiiwybzhd.now.sh [in clipboard] [7s]
+> Synced 2 files (158.61KB) [7s]
+> Deployment complete!
