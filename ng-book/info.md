@@ -326,3 +326,88 @@ data.forEach(function(line) { console.log(line); });
 // Typescript example
 var data2: string[] = ['Alice Green', 'Paul Pfifer', 'Louis Blakenship'];
 data2.forEach( (line) => console.log(line) );
+
+
+
+Parentheses are optional when there’s only one parameter. The => syntax can be used both as an
+expression:
+1 var evens = [2,4,6,8];
+2 var odds = evens.map(v => v + 1);
+Or as a statement:
+1 data.forEach( line => {
+2 console.log(line.toUpperCase())
+3 });
+One important feature of the => syntax is that it shares the same this as the surrounding code. This
+is important and different than what happens when you normally create a function in JavaScript.
+Generally when you write a function in JavaScript that function is given its own this.
+
+Arrows are a great way to cleanup your inline functions. It makes it even easier to use higher-order
+functions in JavaScript.
+
+
+
+
+
+Your global Angular CLI version (1.7.4) is greater than your local                                                                                                     
+version (1.6.3). The local Angular CLI version is used.                                                                                                                
+                                                                                                                                                                       
+To disable this warning use "ng set --global warnings.versionMismatch=false".                                                                                          
+module.js:549                                                                                                                                                          
+    throw err;                                                                                                                                                         
+    ^                                                                                                                                                                  
+                                                                                                                                                                       
+Error: Cannot find module '@angular-devkit/core'                                                                                                                       
+    at Function.Module._resolveFilename (module.js:547:15)                                                                                                             
+    at Function.Module._load (module.js:474:25)                                                                                                                        
+    at Module.require (module.js:596:17)                                                                                                                               
+    at require (internal/module.js:11:18)                                                                                                                              
+    at Object.<anonymous> (d:\NDTRAINING\ndtrainig\ng-book\how-angular-works\inventory-app\node_modules\@angular-devkit\schematics\src\tree\virtual.js:10:16)          
+    at Module._compile (module.js:652:30)                                                                                                                              
+    at Object.Module._extensions..js (module.js:663:10)                                                                                                                
+    at Module.load (module.js:565:32)                                                                                                                                  
+    at tryModuleLoad (module.js:505:12)                                                                                                                                
+    at Function.Module._load (module.js:497:3)                                                                                                                         
+
+
+
+This works for me: it will update local version to latest
+npm uninstall --save-dev angular-cli
+npm install --save-dev @angular/cli@latest
+npm install
+ng --version # to verify version 
+
+
+
+You can run these two snippets to upgrade from angular-cli to the new package @angular/cli.
+
+npm uninstall -g angular-cli
+npm cache clean
+npm install -g @angular/cli@latest
+
+rm -rf node_modules dist
+npm uninstall --save-dev angular-cli
+npm install --save-dev @angular/cli@latest
+npm install
+ng update
+
+
+QUESTION: What is the relationship between the local and global CLI #4799
+https://github.com/angular/angular-cli/issues/4799
+
+npm install -g @angular-devkit/core
+
+
+
+C:\Users\dpolu>npm list -g --depth=0
+C:\Users\dpolu\AppData\Roaming\npm
++-- @angular-devkit/core@0.5.5
++-- @angular/cli@1.7.4
++-- gulp-if@2.0.2
++-- now@11.1.2
++-- tsun@0.3.8
+`-- typescript@2.8.1
+
+Your global Angular CLI version (1.7.4) is greater than your local
+version (1.6.3). The local Angular CLI version is used.
+
+## -> UPDATE in package.json
