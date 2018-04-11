@@ -1,9 +1,9 @@
 export class Article {
-    title : string;
-    link : string;
-    votes : number;
+    title: string;
+    link: string;
+    votes: number;
 
-    constructor(title : string, link : string, votes?: number) {
+    constructor(title: string, link: string, votes?: number) {
         this.title = title;
         this.link = link;
         this.votes = votes || 0;
@@ -11,20 +11,20 @@ export class Article {
         // defaults to zero
     }
 
-    voteUp() : void {
+    voteUp(): void {
         this.votes += 1;
     }
 
-    voteDown() : void {
+    voteDown(): void {
         this.votes -= 1;
     }
 
     // domain() is a utility function that extracts the domain from a URL, which
     // we'll explain shortly
-    domain() : string {
+    domain(): string {
         try {
             // e.g. http://foo.com/path/to/bar
-            const domainAndPath : string = this
+            const domainAndPath: string = this
                 .link
                 .split('//')[1];
             // e.g. foo.com/path/to/bar

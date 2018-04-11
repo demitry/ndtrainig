@@ -1,5 +1,5 @@
-import { 
-  Component, 
+import {
+  Component,
   OnInit,
   Input,
   HostBinding
@@ -15,21 +15,20 @@ import { Article } from './article.model';
 
 export class ArticleComponent implements OnInit {
   @HostBinding('attr.class') cssClass = 'row';
-  @Input article: Article;
-  
+  @Input() article: Article;
+
   constructor() {
-    // this.article = new Article(
-    //   'Angular 2',
-    //   'http://angular.io',
-    //   10
-    // ); 
+    this.article = new Article(
+      'Angular 2',
+      'http://angular.io',
+      10
+    ); // todo: remove this
     }
 
-  voteUp(){
+  voteUp() {
     this.article.voteUp();
-    //console.log('votes' + this.article.votes);
+    // console.log('votes' + this.article.votes);
     return false;
-    
     /**
      * clicking on the vote up or vote down links will cause the page to reload instead of
         updating the article list.
@@ -40,12 +39,11 @@ export class ArticleComponent implements OnInit {
         won’t try to refresh the page. Let’s update our code so that each of the functions voteUp() and
         voteDown() return a boolean value of false (tells the browser not to propagate the event upwards):
      */
-    
   }
 
-  voteDown(){
+  voteDown() {
     this.article.voteDown();
-    //console.log('votes' + this.article.votes);
+    // console.log('votes' + this.article.votes);
     return false;
   }
 
