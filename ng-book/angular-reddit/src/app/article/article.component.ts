@@ -1,7 +1,8 @@
 import { 
   Component, 
   OnInit,
-  HostBinding  
+  Input,
+  HostBinding
 } from '@angular/core';
 
 import { Article } from './article.model';
@@ -11,16 +12,17 @@ import { Article } from './article.model';
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.css']
 })
+
 export class ArticleComponent implements OnInit {
   @HostBinding('attr.class') cssClass = 'row';
-  article: Article;
+  @Input article: Article;
   
   constructor() {
-    this.article = new Article(
-      'Angular 2',
-      'http://angular.io',
-      10
-    ); 
+    // this.article = new Article(
+    //   'Angular 2',
+    //   'http://angular.io',
+    //   10
+    // ); 
     }
 
   voteUp(){
