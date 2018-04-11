@@ -251,3 +251,15 @@ lot of logic out of our component and into our models. The corresponding MVC gui
 here might be Fat Models, Skinny Controllers25. The idea is that we want to move most of
 our logic to our models so that our components do the minimum work possible.
 
+## meld
+meld d:\NDTRAINING\ndtrainig\ng-book\angular-reddit\src\ d:\NDTRAINING\code_samples\first-app\angular-reddit\src\
+
+
+## ES6 Arrow Function
+The above code snippet uses “arrow” (=>) functions from ES6. You can read more about
+arrow functions here26
+sort() We’re also calling the sort() function, which is a built-in which you can read about
+here 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort 
+
