@@ -1,3 +1,46 @@
+<!-- TOC -->
+
+- [npm](#npm)
+- [Angular CLI](#angular-cli)
+  - [npm -v](#npm--v)
+  - [npm install -g typescript](#npm-install--g-typescript)
+  - [npm install -g @angular/cli](#npm-install--g-angularcli)
+  - [ng --version](#ng---version)
+  - [npm -v](#npm--v)
+  - [ng --version](#ng---version)
+  - [ng --help](#ng---help)
+  - [ng new angular-hello-world](#ng-new-angular-hello-world)
+  - [cd angular-hello-world](#cd-angular-hello-world)
+  - [ng serve](#ng-serve)
+- [Making a Component](#making-a-component)
+  - [ng generate component hello-world](#ng-generate-component-hello-world)
+  - [import { things } from wherever](#import-things-from-wherever)
+  - [ng generate component user-item](#ng-generate-component-user-item)
+  - [ng generate component user-list](#ng-generate-component-user-list)
+- [angular-reddit](#angular-reddit)
+  - [npm install -g gulp](#npm-install--g-gulp)
+  - [Skinny Controller, Fat Model](#skinny-controller-fat-model)
+  - [meld](#meld)
+  - [ES6 Arrow Function](#es6-arrow-function)
+  - [Deployment](#deployment)
+    - [Uploading to a Server](#uploading-to-a-server)
+    - [Installing now](#installing-now)
+    - [WOW! Oh! How?!](#wow-oh-how)
+  - [Inheritance](#inheritance)
+  - [Fat Arrow Functions](#fat-arrow-functions)
+  - [Built-in Directives](#built-in-directives)
+    - [NgIf](#ngif)
+    - [NgSwitch](#ngswitch)
+    - [NgStyle](#ngstyle)
+    - [NgClass](#ngclass)
+    - [NgFor](#ngfor)
+    - [NgNonBindable](#ngnonbindable)
+    - [Conclusion](#conclusion)
+
+<!-- /TOC -->
+
+
+
 #npm
 
 1 npm install
@@ -410,4 +453,89 @@ C:\Users\dpolu\AppData\Roaming\npm
 Your global Angular CLI version (1.7.4) is greater than your local
 version (1.6.3). The local Angular CLI version is used.
 
-## -> UPDATE in package.json
+-> UPDATE in package.json
+
+
+p.84
+• How to break your app into components
+• How to make reusable components using inputs
+• How to handle user interactions, such as clicking on a component
+
+
+https://learnxinyminutes.com/docs/typescript/
+
+## Built-in Directives
+
+directives, which are attributes we add to our HTML elements that give us dynamic behavior
+
+### NgIf
+you want to display or hide an element based on a condition
+<div *ngIf="false"></div>     <!-- never displayed -->
+<div *ngIf="a > b"></div>     <!-- displayed if a is more than b -->
+<div *ngIf="str == 'yes'"></div> <!-- displayed if str is the string "yes" -->
+<div *ngIf="myFunc()"></div>  <!-- displayed if myFunc returns truthy -->
+
+### NgSwitch
+renders different elements depending on a given condition
+<div class="container" [ngSwitch]="myVar">
+  <div *ngSwitchCase="'A'">Var is A</div>
+  <div *ngSwitchCase="'B'">Var is B</div>
+  <div *ngSwitchDefault>Var is something else</div>
+</div>
+
+### NgStyle
+sets a given DOM element CSS properties **from Angular expressions**.
+<div [style.background-color]="'yellow'">
+Uses fixed yellow background
+</div>
+<div [ngStyle]="{color: 'white', 'background-color': 'blue'}">
+Uses fixed white text on blue background
+</div>
+
+### NgClass
+The NgClass directive, represented by a ngClass attribute in your HTML template, allows you to
+dynamically set and change the CSS classes for a given DOM element
+
+.bordered {
+  border: 1px dashed black;
+ background-color: #eee; }
+
+<div [ngClass]="{bordered: false}">This is never bordered</div>
+<div [ngClass]="{bordered: true}">This is always bordered</div>
+Of course, it’s a lot more useful to use the NgClass directive to make class assignments dynamic.
+To make it dynamic we add a variable as the value for the object value, like this:
+
+<div [ngClass]="{bordered: isBordered}">
+  Using object literal. Border {{ isBordered ? "ON" : "OFF" }}
+</div>
+
+
+### NgFor
+The role of this directive is to repeat a given DOM element (or a collection of DOM elements) and
+pass an element of the array on each iteration.
+The syntax is *ngFor="let item of items".
+
+### NgNonBindable
+We use ngNonBindable when we want tell Angular not to compile or bind a particular section of
+our page.
+Let’s say we want to render the literal text {{ content }} in our template. Normally that text will
+be bound to the value of the content variable because we’re using the {{ }} template syntax.
+So how can we render the exact text {{ content }}? We use the ngNonBindable directive.
+Let’s say we want to have a div that renders the contents of that content variable and right after
+we want to point that out by outputting <- this is what {{ content }} rendered next to the actual value
+of the variable.
+To do that, here’s the template we’d have to use:
+code/built-in-directives/src/app/ng-non-bindable-example/ng-non-bindable-example.component.html
+
+<div class='ngNonBindableDemo'>
+<span class="bordered">{{ content }}</span>
+<span class="pre" ngNonBindable>
+&larr; This is what {{ content }} rendered
+</span>
+</div>
+
+### Conclusion 
+Angular has only a few core directives, but we can combine these simple pieces to create dynamic,
+powerful apps. However, all of these directives help us output dynamic data, they don’t let us accept
+user interaction.
+In the next chapter we’ll learn how to let our user input data using forms.
