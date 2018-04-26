@@ -11,6 +11,8 @@ namespace NSubTutorial
 	{
 		static void Main(string[] args)
 		{
+
+
 			var tutorial = new NSubTutorial();
 			tutorial.Run();
 		}
