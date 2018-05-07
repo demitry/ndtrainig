@@ -1,0 +1,79 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Game</title>
+    <style>
+        table {
+            border: 1px solid rgb(0, 0, 0); background: rgb(204, 204, 204);
+        }
+        td {
+             padding: 15px; border: 1px solid rgb(221, 221, 221); text-align: center;
+         }
+    </style>
+    <script>
+        var startTime;
+        var cellsLeft;
+        function changeActiveHiddenState(hiddenVal) {
+            var active = document.getElementsByClassName('active');
+            for (var i = 0; i < active.length; i++) {
+                active[i].hidden = hiddenVal;
+            }
+        }
+        function prepareGame() {
+            document.getElementById('gameover').hidden = 'hidden';
+            changeActiveHiddenState('');
+            var cells = document.getElementsByTagName('td');
+            for (var i = 0; i < cells.length; i++) {
+                cells[i].hidden = '';
+                cells[i].innerHTML = Math.floor((Math.random() * 100) + 1);
+                cells[i].onclick = handleClick;
+            }
+            cellsLeft = 16;
+            startTime = Date.now();
+        }
+        function handleClick() {
+            var current = parseInt(this.innerHTML);
+            var incorrect = false;
+            var cells = document.getElementsByTagName('td');
+            for (var i = 0; i < cells.length; i++) {
+                var cell = cells[i];
+                if (!cell.hidden) {
+                    if (parseInt(cell.innerHTML) < current) {
+                        incorrect = true;
+                    }
+                }
+            }
+            if (!incorrect) {
+                this.hidden = 'hidden';
+                cellsLeft--;
+                if (cellsLeft == 0) {
+                    finishGame();
+                }
+
+            }
+        }
+        function finishGame() {
+            changeActiveHiddenState('hidden');
+            document.getElementById('time').innerHTML = (Date.now() - startTime) / 1000;
+            document.getElementById('gameover').hidden = '';
+        }
+    </script>
+</head>
+<body onload="prepareGame();">
+    <div class="active">
+        <p>Click on lowest numbers as fast as you can</p>
+    </div>
+    <table id="data" class="active">
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>        
+    </table>
+    <div id="gameover" hidden="true">
+        <p>Congratulations!</p>
+        <p>Your time is: <span id="time"></span> seconds</p>
+        <button id="restart" onclick="prepareGame();">Restart</button>
+    </div>
+</body>
+</html>

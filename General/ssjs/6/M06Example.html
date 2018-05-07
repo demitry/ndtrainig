@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Module 06 Sample</title>
+</head>
+<script>
+    function calcFib() {
+        var fibNum = parseInt(document.getElementById("fibNum").value);
+        console.time('Fibonacci calculation');
+        var fibDesired;
+        try {
+            if (isNaN(fibNum))
+                throw new Error("You have entered incorrect value!");
+            if (fibNum < 3)
+                throw new Error('Please enter value more then 2');
+            var fibPrev = 1,
+                fibCurr = 1;
+            for (var i = 0; i < fibNum - 2; i++) {
+                fibDesired = fibCurr + fibPrev;
+                fibPrev = fibCurr;
+                fibCurr = fibDesired;
+            }
+            console.log('Fibonacci number %i is %i', fibNum, fibDesired);
+        } catch (err) {
+            console.error('Error detected: %s', err.message);
+        } finally {
+            console.timeEnd('Fibonacci calculation');
+        }        
+    }
+</script>
+<body>
+    <h1>Calculate Fibonacci number</h1>
+    <p>Enter a number you want to calculate: <input id="fibNum" type="text" /></p>
+    <p>Open console to see results</p>
+    <p><button onclick="calcFib()">Calculate</button></p>
+</body>
+</html>
