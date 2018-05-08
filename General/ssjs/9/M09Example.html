@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Game</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        function createTable(size) {
+            var table = $('table#data');
+            for (var i = 0; i < size; i++) {
+                var row = $("<tr></tr>");
+                for (var j = 0; j < size; j++) {
+                    var td = $("<td></td>");
+                    row.append(td);
+                }
+                table.append(row);
+            }
+        }
+        var startTime;
+        function prepareGame() {
+            $('#gameover').hide('fast');
+            $('.active, table#data td').show('normal');
+            $('table#data td').each(function () {
+                $(this).html(Math.floor((Math.random() * 100) + 1));
+            });
+            startTime = $.now();
+        }
+        function handleClick() {
+            var current = parseInt($(this).html());
+            var incorrect = false;
+            $('table#data td:visible').each(function () {
+                if (parseInt($(this).html()) < current) {
+                    incorrect = true;
+                }
+            });
+            if (!incorrect) {
+                $(this).hide("fast", function() {
+                    if (!$('table#data td:visible').length) {
+                        finishGame();
+                    }
+                });                
+            }
+        }
+        function finishGame() {
+            $('#time').html(($.now() - startTime) / 1000);
+            $('.active').hide('fast');
+            $('#gameover').show('normal');
+        }
+        $(document).ready(function () {
+            createTable(4);
+            $('table#data td').click(handleClick);
+            $('#restart').click(prepareGame);
+            $('table#data').css({ background: "#CCC", border: "1px solid #000" });
+            $('table#data td').css({padding:"15px",border:"1px solid #DDD","text-align":"center"});
+            prepareGame();
+        });
+    </script>
+</head>
+    <body>
+        <div class="active">
+            <p>Click on lowest numbers as fast as you can</p>
+        </div>
+        <table id="data" class="active"> </table>
+        <div id="gameover" hidden="true">
+            <p>Congratulations!</p>
+            <p>Your time is: <span id="time"></span> seconds</p>
+            <button id="restart">Restart</button>
+        </div>
+    </body>
+</html>

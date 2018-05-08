@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Insurance Company - Car Accident Registration Form</title>
+    <script>
+        function validateForm() {
+            var details = document.getElementById("details").value;
+            var car = document.getElementById("car").value;
+            return (details.search(car) != -1);
+        }
+    </script>
+</head>
+<body>
+    <div id="contact-form">
+        <h1>Car accident registration form</h1>
+        <form id="contact" method="post" action="">
+            <fieldset>
+                <p>
+                    <label for="customername">Customer Name</label>
+                    <input type="text" id="customername" pattern="\w{1,30}"
+                           required="true" 
+                           title="From 1 to 30 alphanumeric characters"
+                           placeholder="Customer Name"/>
+                </p>
+                <p>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" 
+                           required="true"
+                           placeholder="Email"/>
+                </p>
+                <p>
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" 
+                           required="true"
+                           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+                           title="Format: 123-456-7890"
+                           placeholder="Phone number"/>
+                </p>
+                <p>
+                    <label for="car">Car number</label>  
+                    <input type="text" id="car" name="car" pattern="[A-Z]{2}\d{4}[A-Z]{2}"
+                           required="true"
+                           title="Format: AB1234CD"
+                           placeholder="Car Number"/>
+                </p>
+                <p>
+                    <label for="details">Accident details</label>
+                    <textarea id="details" name="details" required="true" 
+                              title="Describe your accident, do not forget to mention your car number"></textarea>
+                </p>
+                <input type="submit" name="submit" id="submit"
+                       value="Submit" onclick="return validateForm();"/>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

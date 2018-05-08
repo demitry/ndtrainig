@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Module 09: jQuery. Target HTML file</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="m09task01.js"></script>
+    <script src="m09task02.js"></script>
+    <script src="m09task03.js"></script>
+    <script>
+        $(document).ready(function () {
+            // To test your tasks without side effects, 
+	    // uncomment only one function at a time below
+	    // m09task01();
+	    // m09task02();
+	     m09task03();
+        });
+    </script>
+</head>
+<body>
+    <div id="qunit-fixture">
+        <p id="test">Test paragraph 1</p>
+        <p class="test">Test paragraph 2</p>
+        <p class="test">Test paragraph 3</p>
+        <p id="last">Test paragraph 4</p>
+        <button id="testButton">Button</button>
+    </div>
+</body>
+</html>
