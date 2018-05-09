@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <title>Example 1: Using of Function</title>
+		<meta charset = "utf-8">
+		<link rel="stylesheet" type="text/css" href="example.css" />
+		
+		<script src = "example.js"></script>
+    </head>
+	<body>
+	    <textarea cols = "50" rows = "30" readonly = "readonly" class = "example">
+    var i, base, power, result;
+
+    base = 2; 
+    power = 3; 
+    result = 1; 
+
+    for(i = 0; i < power; i++) {
+        result *= base;
+    }
+    console.log("2^3 = " + result);
+
+    base = 3; 
+    power = 4; 
+    result = 1; 
+
+    for(i = 0; i < power; i++) {
+        result *= base;
+    }
+    console.log("3^4 = " + result);
+
+    base = 5; 
+    power = 2; 
+    result = 1; 
+
+    for(i = 0; i < power; i++) {
+        result *= base;
+    }
+    console.log("5^2 = " + result);
+			
+		</textarea>
+	    <div class = "message">
+		    Result of code processing you can find in console. <br />
+			Please, press F12 for it opening.
+		</div>
+	</body>
+</html>	

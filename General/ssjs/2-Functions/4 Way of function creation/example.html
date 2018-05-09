@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <title>Example 2: Function declaration and Function expression</title>
+		<meta charset = "utf-8">
+		<link rel="stylesheet" type="text/css" href="example.css" />
+		
+		<script src = "example.js"></script>
+    </head>
+	<body>
+	    <textarea cols = "100" rows = "15" readonly = "readonly" class = "example">
+     function declarationWay () {
+         console.log("This function create at first stage of code processing!" );
+     }
+ 
+     var expressionWay = function () {
+                 console.log("This function create at third stage of code processing -
+				     on execution stage!" );
+             };
+ 
+     declarationWay();
+     expressionWay();
+ 
+     console.log("Both function work good :)");    
+	
+		</textarea>
+	    <div class = "message">
+		    Result of code processing you can find in console. Please, press F12 for it opening.
+		</div>
+	</body>
+</html>	

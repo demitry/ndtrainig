@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <title>Example 1: Using of Function</title>
+		<meta charset = "utf-8">
+		<link rel="stylesheet" type="text/css" href="example.css" />
+		
+		<script src = "example.js"></script>
+    </head>
+	<body>
+	    <textarea cols = "50" rows = "30" readonly = "readonly" class = "example">
+    var out;
+
+    out = pow(2, 3);
+    console.log("2^3 = " + out);
+
+    out = pow(3, 4);
+    console.log("3^4 = " + out);
+
+    out = pow(5, 2);
+    console.log("5^2 = " + out);
+
+ 
+    function pow (base, power) {
+        var i, result = 1; 
+        for(i = 0; i < power; i++) {
+            result *= base;
+        }
+	    return result;
+    }	
+		</textarea>
+	    <div class = "message">
+		    Result of code processing you can find in console. <br />
+			Please, press F12 for it opening.
+		</div>
+	</body>
+</html>	

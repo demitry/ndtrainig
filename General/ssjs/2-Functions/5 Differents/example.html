@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <title>Example 2: Function declaration and Function expression</title>
+		<meta charset = "utf-8">
+		<link rel="stylesheet" type="text/css" href="example.css" />
+		
+		<script src = "example.js"></script>
+    </head>
+	<body>
+	    <textarea cols = "100" rows = "15" readonly = "readonly" class = "example">
+     function someFunction () {
+         console.log("You never see this text in console!" );
+     }
+ 
+     var someFunction = function () {
+                 console.log("You should see this text in console
+				If you don't see this text somebody dead in the forest :)" );
+             };
+ 
+     someFunction();
+ 
+     console.warn("Pay attention that expression way of function creation rewrite function created by declaration way!");
+ 
+		</textarea>
+	    <div class = "message">
+		    Result of code processing you can find in console. Please, press F12 for it opening.
+		</div>
+		<br />
+	    <div class = "warning">
+		    Pay attention that expression way of function creation <b><u>rewrite</u></b> function created by declaration way!
+		</div>		
+	</body>
+</html>	
