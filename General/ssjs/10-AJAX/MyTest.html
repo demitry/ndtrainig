@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Ajax Test</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="testAjax.js"></script>
+    <script>
+        $(document).ready(function () {
+	    // m10task01();
+	    // m10task02('SFO');
+        });
+    </script>
+</head>
+<body>
+    <div id="qunit-fixture">
+        <p><span id="target"></span></p>
+    </div>
+
+    <form id = "dataForm">
+        <input type="text" id="Sender_Name"  /><br>  // long descriptive names that will not be used as
+        <input type="text" id="Sender_Email" /><br>// javascript variable names are a good habit here...
+        <button id="submitform">submit</button>
+
+        <!-- <input type="button" value="send" onclick="javascript:submitform('processform.php')"/> -->
+    </form> 
+      
+</body>
+</html>

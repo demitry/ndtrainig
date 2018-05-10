@@ -16,5 +16,13 @@
 // return result written: 94128 
 
 function m10task02(code) {
-    // TODO: place your code here
+    $.getJSON("https://query.yahooapis.com/v1/public/yql?callback=?",
+    { q: "SELECT * from geo.places WHERE text='"+ code+ "'", format: "json" },
+    function(response) {
+        console.log("Name: " + response.query.results.place.name);
+        console.log("ZIP code:" + response.query.results.place.postal.content);
+        document.getElementById("target").innerHTML =   "<p>" + "Name: " + response.query.results.place.name + "</p>" +
+                                                        "<p>" + "ZIP code:" + response.query.results.place.postal.content + "</p>";
+    });
+
 }
