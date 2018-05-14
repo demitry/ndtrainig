@@ -1,4 +1,16 @@
 
+
+
+USE master
+GO
+xp_readerrorlog 0, 1, N'Server is listening on', 'any', NULL, NULL, N'asc' 
+GO
+
+USE MASTER
+GO
+xp_readerrorlog 0, 1, N'Server is listening on'
+GO
+
 SELECT * FROM university.dbo.Students;
 select * from dbo.Students;
 
@@ -431,3 +443,192 @@ WHERE Price > (SELECT AVG(Price) FROM Products AS SubProds WHERE SubProds.Manufa
 Чтобы избежать двойственности при фильтрации в подзапросе при сравнении производителей (SubProds.Manufacturer=Prods.Manufacturer) для внешней выборки установлен псевдоним Prods, а для выборки из подзапросов определен псевдоним SubProds.
 Следует учитывать, что коррелирующие подзапросы выполняются для каждой отдельной строки выборки, то выполнение таких подзапросов может замедлять выполнение всего запроса в целом.
 */
+
+
+-- Подзапросы в SELECT
+--В выражении SELECT мы можем вводить подзапросы четырьмя способами:
+--Использовать в условии в выражении WHERE
+--Использовать в условии в выражении HAVING
+--Использовать в качестве таблицы для выборки в выражении FROM
+--Использовать в качестве спецификации столбца в выражении SELECT
+
+--Рассмотрим некоторые из этих случаев. Например, получим все товары, у которых цена выше средней:
+SELECT * FROM Products
+WHERE Price > (SELECT AVG(Price) FROM Products)
+
+-- Или выберем всех покупателей из таблицы Customers, у которых нет заказов в таблице Orders:
+SELECT * FROM CUSTOMERS
+WHERE Id NOT IN (SELECT CustomerId FROM Orders)
+
+/*Хотя в данном случае подзапросы прекрасно справляются со своей задачей, 
+стоит отметить, что это не самый эффективный способ для извлечения данных из других таблиц, 
+так как в рамках T-SQL для сведения данных из разных таблиц можно использовать оператор JOIN, 
+который рассматривается в следующей теме.
+*/
+
+--Получение набора значений
+--При использовании в операторах сравнения подзапросы должны возвращать одно скалярное значение. 
+-- Но иногда возникает необходимость получить набор значений. 
+-- Чтобы при использовании в операторах сравнения подзапрос мог возвращать набор значений, перед ним необходимо использовать один из операторов: ALL, SOME или ANY.
+--При использовании ключевого слова ALL условие в операции сравнения должно быть верно для всех значений, которые возвращаются подзапросом. 
+-- Например, найдем все товары, цена которых меньше чем у любого товара фирмы Apple:
+
+SELECT * FROM Products
+WHERE Price < ALL(SELECT Price FROM Products WHERE Manufacturer='Apple')
+-- Если бы мы в данном случае опустили бы ключевое слово ALL, то мы бы столкнулись с ошибкой.
+
+/*
+Допустим, если подзапрос возвращает значения vl1, val2 и val3, то условие фильтрации фактически было бы аналогично объединению этих значений через оператор AND:
+WHERE Price < val1 AND Price < val2 AND Price < val3
+В тоже время подобный запрос гораздо проще переписать другим образом:
+*/
+SELECT * FROM Products
+WHERE Price < (SELECT MIN(Price) FROM Products WHERE Manufacturer='Apple')
+
+--При применении ключевых слов ANY и SOME условие в операции сравнения должно быть истинным для хотя бы одного из значений, возвращаемых подзапросом. По действию оба этих оператора аналогичны, поэтому можно применять любое из них. Например, в следующем случае получим товары, которые стоят меньше самого дорого товара компании Apple:
+
+SELECT * FROM Products
+WHERE Price < ANY(SELECT Price FROM Products WHERE Manufacturer='Apple')
+--И также стоит отметить, что данный запрос можно сделать проще, переписав следующим образом:
+
+SELECT * FROM Products
+WHERE Price < (SELECT MAX(Price) FROM Products WHERE Manufacturer='Apple')
+
+
+-- Подзапрос как спецификация столбца
+-- Результат подзапроса может представлять отдельный столбец в выборке. 
+-- Например, выберем все заказы и добавим к ним информацию о названии товара:
+
+SELECT * FROM dbo.Orders o;
+SELECT *, 
+(SELECT ProductName FROM Products WHERE Id=Orders.ProductId) AS Product 
+FROM Orders
+
+
+-- Подзапросы в команде INSERT
+-- В команде INSERT подзапросы могут применяться для определения значения, которое вставляется в один из столбцов:
+
+-- Subqueries are not allowed in this context. Only scalar expressions are allowed.
+--INSERT INTO Orders (ProductId, CustomerId, CreatedAt, ProductCount, Price)
+--VALUES
+--( 
+--    (SELECT Id FROM Products WHERE ProductName='Galaxy S8'), 
+--    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+--    '2017-07-11',  
+--    2, 
+--    (SELECT Price FROM Products WHERE ProductName='Galaxy S8')
+--)
+INSERT INTO Orders (ProductId, CustomerId, CreatedAt, ProductCount, Price)
+SELECT
+    (SELECT Id FROM Products WHERE ProductName='Galaxy S8'), 
+    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+    '2017-07-11',  
+    2, 
+    (SELECT Price FROM Products WHERE ProductName='Galaxy S8');
+
+
+--Подзапросы в команде UPDATE
+
+--В команде UPDATE подзапросы могут применяться:
+--В качестве устанавливаемого значения после оператора SET
+--Как часть условия в выражении WHERE
+--Так, увеличим количество купленных товаров на 2 в тех заказах, где покупатель Тоm:
+
+UPDATE Orders
+SET ProductCount = ProductCount + 2
+WHERE CustomerId=(SELECT Id FROM Customers WHERE FirstName='Tom')
+
+--Или установим для заказа цену товара, полученную в результате подзапроса:
+UPDATE Orders
+SET Price = (SELECT Price FROM Products WHERE Id=Orders.ProductId) + 2000
+WHERE Id=1
+
+
+-- Подзапросы в команде UPDATE
+-- В команде UPDATE подзапросы могут применяться:
+-- 
+-- В качестве устанавливаемого значения после оператора SET
+-- 
+-- Как часть условия в выражении WHERE
+-- 
+-- Так, увеличим количество купленных товаров на 2 в тех заказах, где покупатель Тоm:
+-- 
+
+select * from Orders;
+
+UPDATE Orders
+SET ProductCount = ProductCount + 2
+WHERE CustomerId=(SELECT Id FROM Customers WHERE FirstName='Tom');
+
+-- Или установим для заказа цену товара, полученную в результате подзапроса:
+UPDATE Orders
+SET Price = (SELECT Price FROM Products WHERE Id=Orders.ProductId) + 2000
+WHERE Id=1
+
+-- Подзапросы в команде DELETE
+-- В команде DELETE подзапросы также применяются как часть условия. Так, удалим все заказы на Galaxy S8, которые сделал Bob:
+-- 
+
+use productsdb;
+
+DELETE FROM Orders
+WHERE ProductId=(SELECT Id FROM Products WHERE ProductName='Galaxy S8')
+AND CustomerId=(SELECT Id FROM Customers WHERE FirstName='Bob')
+
+
+-- Оператор EXISTS
+-- Оператор EXISTS позволяет проверить, возвращает ли подзапрос какое-либо значение. Как правило, этот оператор используется для индикации того, что какая-либо строка удовлетворяет условию. То есть фактически оператор EXISTS не возвращает строки, а лишь указывает, что в базе данных есть как минимум одна строка, которые соответствует данному запросу. Поскольку возвращения набора строк не происходит, то подзапросы с подобным оператором выполняются довольно быстро.
+-- Применение оператора имеет следующий формальный синтаксис:
+-- WHERE [NOT] EXISTS (подзапрос)
+-- Например, найдем всех покупателей из таблицы Customer, которые делали заказы:
+-- 
+SELECT *
+FROM Customers
+WHERE EXISTS (SELECT * FROM Orders 
+                  WHERE Orders.CustomerId = Customers.Id)
+
+
+
+-- Другой пример - найдем все товары из таблицы Products, на которые не было заказов в таблице Orders:
+SELECT * FROM Products
+WHERE NOT EXISTS (SELECT * FROM Orders WHERE Products.Id = Orders.ProductId);
+
+-- Но поскольку при применении EXISTS не происходит выборка строк, то его использование более оптимально и эффективно, чем использование оператора IN.
+
+
+-- Глава 7. Соединение таблиц
+SELECT * FROM Orders;
+
+SELECT * FROM Customers;
+	
+SELECT * FROM Orders, Customers
+
+-- При такой выборке для каждая строка из таблицы Orders будет совмещаться с каждой строкой из таблицы Customers. 
+-- !!! То есть, получится перекрестное соединение. Например, в Orders три строки, а в Customers то же три строки, значит мы получим 3 * 3 = 9 строк:
+
+-- То есть в данном случае мы получаем прямое (декартово) произведение двух групп. Но вряд ли это тот результат, который хотелось бы видеть. Тем более каждый заказ из Orders связан с конкретным покупателем из Customers, а не со всеми возможными покупателями.
+
+-- Чтобы решить задачу, необходимо использовать выражение WHERE и фильтровать строки при условии, что поле CustomerId из Orders соответствует полю Id из Customers:
+
+SELECT * FROM Orders, Customers WHERE Orders.CustomerId = Customers.Id
+
+-- Теперь объединим данные по трем таблицам Orders, Customers и Proucts. То есть получим все заказы и добавим информацию по клиенту и связанному товару:
+SELECT Customers.FirstName, Products.ProductName, Orders.CreatedAt 
+FROM Orders, Customers, Products
+WHERE Orders.CustomerId = Customers.Id AND Orders.ProductId=Products.Id;
+
+-- Поскольку надо соединить три таблицы, то применяются как минимум два условия. Ключевой таблицей остается Orders, из которой извлекаются все заказы, а затем к ней подсоединяется данные по клиенту по условию Orders.CustomerId = Customers.Id и данные по товару по условию Orders.ProductId=Products.Id
+
+-- Поскольку в данном случае названия таблиц сильно увеличивают код, то мы его можем сократить за счет использования псевдонимов таблиц:
+
+SELECT C.FirstName, P.ProductName, O.CreatedAt 
+FROM Orders AS O, Customers AS C, Products AS P
+WHERE O.CustomerId = C.Id AND O.ProductId=P.Id
+
+-- Если необходимо при использовании псевдонима выбрать все столбцы из определенной таблицы, то можно использовать звездочку:
+
+SELECT C.FirstName, P.ProductName, O.*
+FROM Orders AS O, Customers AS C, Products AS P
+WHERE O.CustomerId = C.Id AND O.ProductId=P.Id
+
+-- https://metanit.com/sql/sqlserver/7.2.php
