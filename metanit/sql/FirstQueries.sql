@@ -254,3 +254,180 @@ SELECT * FROM (
 -- Do we have LIMIT and OFFSET keywords in SQL Server ? I think no ... 
 
 
+
+
+
+-- Выполнение подзапросов
+-- https://metanit.com/sql/sqlserver/6.1.php
+
+USE productsdb;
+
+CREATE TABLE Products
+(
+    Id INT IDENTITY PRIMARY KEY,
+    ProductName NVARCHAR(30) NOT NULL,
+    Manufacturer NVARCHAR(20) NOT NULL,
+    ProductCount INT DEFAULT 0,
+    Price MONEY NOT NULL
+);
+
+CREATE TABLE Customers
+(
+    Id INT IDENTITY PRIMARY KEY,
+    FirstName NVARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Orders
+(
+    Id INT IDENTITY PRIMARY KEY,
+    ProductId INT NOT NULL REFERENCES Products(Id) ON DELETE CASCADE,
+    CustomerId INT NOT NULL REFERENCES Customers(Id) ON DELETE CASCADE,
+    CreatedAt DATETIME NOT NULL,
+    ProductCount INT DEFAULT 1,
+    Price MONEY NOT NULL
+);
+-- Таблица Orders содержит ссылки на две другие таблицы через поля ProductId и CustomerId.
+-- Добавим в таблицы некоторые данные:
+
+/*
+INSERT INTO Products VALUES ('iPhone 6', 'Apple', 2, 36000),
+('iPhone 6S', 'Apple', 2, 41000),
+('iPhone 7', 'Apple', 5, 52000),
+('Galaxy S8', 'Samsung', 2, 46000),
+('Galaxy S8 Plus', 'Samsung', 1, 56000),
+('Mi 5X', 'Xiaomi', 2, 26000),
+('OnePlus 5', 'OnePlus', 6, 38000)
+ */
+INSERT INTO Products VALUES ('iPhone 6', 'Apple', 2, 36000);
+INSERT INTO Products VALUES ('iPhone 6S', 'Apple', 2, 41000);
+INSERT INTO Products VALUES ('iPhone 7', 'Apple', 5, 52000);
+INSERT INTO Products VALUES ('Galaxy S8', 'Samsung', 2, 46000);
+INSERT INTO Products VALUES ('Galaxy S8 Plus', 'Samsung', 1, 56000);
+INSERT INTO Products VALUES ('Mi 5X', 'Xiaomi', 2, 26000);
+INSERT INTO Products VALUES ('OnePlus 5', 'OnePlus', 6, 38000);
+
+INSERT INTO Customers VALUES ('Tom');
+INSERT INTO Customers VALUES ('Bob');
+INSERT INTO Customers VALUES ('Sam');
+
+INSERT INTO Orders 
+VALUES
+( 
+    (SELECT Id FROM Products WHERE ProductName='Galaxy S8'), 
+    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+    '2017-07-11',  
+    2, 
+    (SELECT Price FROM Products WHERE ProductName='Galaxy S8')
+),
+( 
+    (SELECT Id FROM Products WHERE ProductName='iPhone 6S'), 
+    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+    '2017-07-13',  
+    1, 
+    (SELECT Price FROM Products WHERE ProductName='iPhone 6S')
+),
+( 
+    (SELECT Id FROM Products WHERE ProductName='iPhone 6S'), 
+    (SELECT Id FROM Customers WHERE FirstName='Bob'),
+    '2017-07-11',  
+    1, 
+    (SELECT Price FROM Products WHERE ProductName='iPhone 6S')
+)
+
+-- Subqueries are not allowed in this context. Only scalar expressions are allowed.
+-- > I don't have a Microsoft SQL Server 2000 anymore, but this should also work, simply replace VALUES with SELECT and remove the brackets:
+/*
+insert into table_one (greeting_column, name_column)
+SELECT  'hello', (select column_1 from table_to where name = 'bob')
+
+For insert with subquery, you must not pass values, it have to be some thing like this:  !!!!
+
+Hi, you hit one of the most annoying SQL limitation, the way to go around this is simple but tiring: 
+you declare a variable, fill it with the value you want and the use that variable in your insert statement. 
+Something like this:
+
+DECLARE @foo int
+SELECT TOP 1 @foo = ...
+INSERT INTO Table1(x, y, z) VALUES (1, 2, @foo)
+*/
+
+/* PROBLEM: Subqueries are not allowed in this context. Only scalar expressions are allowed.*/
+/* SOLUTION: simply replace VALUES with SELECT and remove the brackets:*/
+
+INSERT INTO Orders
+SELECT
+    (SELECT Id FROM Products WHERE ProductName='Galaxy S8'), 
+    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+    '2017-07-11',  
+    2, 
+    (SELECT Price FROM Products WHERE ProductName='Galaxy S8');
+
+INSERT INTO Orders
+SELECT
+    (SELECT Id FROM Products WHERE ProductName='iPhone 6S'), 
+    (SELECT Id FROM Customers WHERE FirstName='Tom'),
+    '2017-07-13',  
+    1, 
+    (SELECT Price FROM Products WHERE ProductName='iPhone 6S');
+
+
+INSERT INTO Orders
+SELECT
+    (SELECT Id FROM Products WHERE ProductName='iPhone 6S'), 
+    (SELECT Id FROM Customers WHERE FirstName='Bob'),
+    '2017-07-11',  
+    1, 
+    (SELECT Price FROM Products WHERE ProductName='iPhone 6S');
+
+
+-- найдем товары из таблицы Products, которые имеют минимальную цену:
+SELECT * FROM Products
+WHERE Price = (SELECT MIN(Price) FROM Products)
+
+-- Или найдем товары, цена которых выше средней:
+SELECT * FROM Products
+WHERE Price > (SELECT AVG(Price) FROM Products)
+
+
+/*
+Коррелирующие подзапросы
+Подзапросы бывают коррелирующими и некоррелирующими. 
+В примерах выше команды SELECT выполняли фактически один подзапрос для всей команды, 
+например, подзапрос возвращает минимальную или среднюю цену, которая не изменится,
+сколько бы мы строк не выбирали в основном запросе. 
+То есть результат подзапроса не зависел от строк, которые выбираются в основном запросе. 
+И такой подзапрос выполняется один раз для всего внешнего запроса.
+Но также существуют коррелирующие подзапросы (correlated subquery), 
+результаты которых зависят от строк, которые выбираются в основном запросе.
+Например, выберем все заказы из таблицы Orders, добавив к ним информацию о товаре:
+*/
+
+SELECT  CreatedAt, 
+        Price, 
+        (SELECT ProductName 
+		 FROM Products 
+		 WHERE Products.Id = Orders.ProductId) 
+		 AS Product
+FROM Orders
+
+/*Здесь для каждой строки из таблицы Orders будет выполняться подзапрос, 
+результат которого зависит от столбца ProductId. 
+И каждый подзапрос может возвращать различные данные.
+Коррелирующий подзапрос может выполняться и для той же таблицы, к которой выполняется основной запрос.
+
+Например, выберем из таблицы Products те товары, стоимость которых выше средней цены товаров для данного производителя:
+*/
+SELECT ProductName,
+       Manufacturer,
+       Price, 
+        (SELECT AVG(Price) FROM Products AS SubProds 
+         WHERE SubProds.Manufacturer=Prods.Manufacturer) AS AvgPrice
+FROM Products AS Prods
+WHERE Price > (SELECT AVG(Price) FROM Products AS SubProds WHERE SubProds.Manufacturer=Prods.Manufacturer)
+
+/*
+В данном случае определено два коррелирующих подзапроса. Первый подзапрос определяет спецификацию столбца AvgPrice. Он будет выполняться для каждой строки, извлекаемой из таблицы Products. В подзапрос передается производитель товара и на его основе выбирается средняя цена для товаров именно этого производителя. И так как производитель у товаров может отличаться, то и результат подзапроса в каждом случае также может отличаться.
+Второй подзапрос аналогичен, только он используется для фильтрации извлекаемых из таблицы Products. И также он будет выполняться для каждой строки.
+Чтобы избежать двойственности при фильтрации в подзапросе при сравнении производителей (SubProds.Manufacturer=Prods.Manufacturer) для внешней выборки установлен псевдоним Prods, а для выборки из подзапросов определен псевдоним SubProds.
+Следует учитывать, что коррелирующие подзапросы выполняются для каждой отдельной строки выборки, то выполнение таких подзапросов может замедлять выполнение всего запроса в целом.
+*/
