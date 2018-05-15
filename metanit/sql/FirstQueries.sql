@@ -632,3 +632,129 @@ FROM Orders AS O, Customers AS C, Products AS P
 WHERE O.CustomerId = C.Id AND O.ProductId=P.Id
 
 -- https://metanit.com/sql/sqlserver/7.2.php
+
+SELECT Orders.CreatedAt, Orders.ProductCount from Orders;
+
+SELECT Orders.CreatedAt, Orders.ProductCount, Products.ProductName 
+FROM Orders
+JOIN Products ON Products.Id = Orders.ProductId
+
+-- Поскольку таблицы могут содержать столбцы с одинаковыми названиями, то при указании столбцов для выборки указывается их полное имя вместе с именем таблицы, например, "Orders.ProductCount".
+
+-- Также используя псевдонимы, мы можем сократить код:
+SELECT O.CreatedAt, O.ProductCount, P.ProductName 
+FROM Orders AS O
+JOIN Products AS P
+ON P.Id = O.ProductId
+
+-- Подобным образом мы можем присоединять и другие таблицы. Например, добавим к заказу информацию о покупателе из таблицы Customers:
+SELECT Orders.CreatedAt, Customers.FirstName, Products.ProductName
+FROM Orders
+JOIN Products ON Products.Id = Orders.ProductId 
+JOIN Customers ON Customers.Id = Orders.CustomerId
+
+-- Благодаря соединению таблиц мы можем использовать их столбцы для фильтрации выборки или ее сортировки:
+
+SELECT Orders.CreatedAt, Customers.FirstName, Products.ProductName, Products.Price
+FROM Orders
+JOIN Products ON Products.Id = Orders.ProductId
+JOIN Customers ON Customers.Id=Orders.CustomerId
+WHERE Products.Price < 45000
+ORDER BY Customers.FirstName
+
+
+-- Условия после ключевого слова ON могут быть более сложными по составу:
+
+SELECT Orders.CreatedAt, Customers.FirstName, Products.ProductName 
+FROM Orders
+JOIN Products ON Products.Id = Orders.ProductId AND Products.Manufacturer='Apple'
+JOIN Customers ON Customers.Id=Orders.CustomerId
+ORDER BY Customers.FirstName
+
+-- В данном случае выбираем все заказы на товары, производителем которых является Apple.
+
+-- NB!!!
+-- При использовании оператора JOIN следует учитывать, что процесс соединения таблиц может быть ресурсоемким,
+-- поэтому следует соединять только те таблицы, данные из которых действительно необходимы. 
+-- Чем больше таблиц соединяется, тем больше снижается производительность.
+
+-- OUTER JOIN
+-- https://metanit.com/sql/sqlserver/7.3.php
+
+SELECT FirstName, CreatedAt, ProductCount, Price, ProductId 
+FROM Orders LEFT JOIN Customers 
+ON Orders.CustomerId = Customers.Id
+
+/* По вышеприведенному результату может показаться, что левостороннее соединение аналогично INNER Join, но это не так. 
+ 
+ Inner Join объединяет строки из дух таблиц при соответствии условию. Если одна из таблиц содержит строки,
+ которые не соответствуют этому условию, то данные строки не включаются в выходную выборку. 
+ 
+ Left Join выбирает все строки первой таблицы и затем присоединяет к ним строки правой таблицы.
+ К примеру, возьмем таблицу Customers и добавим к покупателям информацию об их заказах:
+*/
+
+-- INNER JOIN
+SELECT FirstName, CreatedAt, ProductCount, Price 
+FROM Customers JOIN Orders 
+ON Orders.CustomerId = Customers.Id
+ 
+-- LEFT JOIN
+SELECT FirstName, CreatedAt, ProductCount, Price 
+FROM Customers LEFT JOIN Orders 
+ON Orders.CustomerId = Customers.Id
+-- Тут будет еще включено - Sam NULL NULL NULL
+
+-- Изменим в примере выше тип соединения на правостороннее:
+SELECT FirstName, CreatedAt, ProductCount, Price, ProductId 
+FROM Orders RIGHT JOIN Customers 
+ON Orders.CustomerId = Customers.Id
+
+-- Поскольку один из покупателей из таблицы Customers не имеет связанных заказов из Orders, то соответствующие столбцы, которые берутся из Orders, будут иметь значение NULL.
+
+-- Используем левостороннее соединение для добавления к заказам информации о пользователях и товарах:
+
+SELECT Customers.FirstName, Orders.CreatedAt, 
+       Products.ProductName, Products.Manufacturer
+FROM Orders 
+LEFT JOIN Customers ON Orders.CustomerId = Customers.Id
+LEFT JOIN Products ON Orders.ProductId = Products.Id
+
+-- И также можно применять более комплексные условия с фильтрацией и сортировкой. Например, выберем все заказы с информацией о клиентах и товарах по тем товарам, у которых цена меньше 45000, и отсортируем по дате заказа:
+SELECT Customers.FirstName, Orders.CreatedAt, 
+       Products.ProductName, Products.Manufacturer
+FROM Orders 
+LEFT JOIN Customers ON Orders.CustomerId = Customers.Id
+LEFT JOIN Products ON Orders.ProductId = Products.Id
+WHERE Products.Price < 45000
+ORDER BY Orders.CreatedAt
+
+-- Или выберем всех пользователей из Customers, у которых нет заказов в таблице Orders:
+
+SELECT FirstName FROM Customers
+LEFT JOIN Orders ON Customers.Id = Orders.CustomerId
+WHERE Orders.CustomerId IS NULL
+
+-- Также можно комбинировать Inner Join и Outer Join:
+SELECT Customers.FirstName, Orders.CreatedAt, 
+       Products.ProductName, Products.Manufacturer
+FROM Orders 
+JOIN Products ON Orders.ProductId = Products.Id AND Products.Price < 45000
+LEFT JOIN Customers ON Orders.CustomerId = Customers.Id
+ORDER BY Orders.CreatedAt
+
+--Вначале по условию к таблице Orders через Inner Join присоединяется связанная информация из Products, затем через Outer Join добавляется информация из таблицы Customers.
+
+--Cross Join
+-- Cross Join или перекрестное соединение создает набор строк, где каждая строка из одной таблицы соединяется с каждой строкой из второй таблицы. 
+-- Например, соединим таблицу заказов Orders и таблицу покупателей Customers:
+
+SELECT * FROM Orders CROSS JOIN Customers;
+
+-- Если в таблице Orders 3 строки, а в таблице Customers то же тBENCHMARKри строки, то в результате перекрестного соединения создается 3 * 3 = 9 строк вне зависимости, связаны ли данные строки или нет.
+-- При неявном перекрестном соединении можно опустить оператор CROSS JOIN и просто перечислить все получаемые таблицы:
+
+SELECT * FROM Orders, Customers;
+
+-- https://metanit.com/sql/sqlserver/7.4.php
+-- Группировка в соединениях
