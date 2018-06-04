@@ -16,8 +16,27 @@ namespace FirstApp
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+
+            //Device.Idiom.ToString();
+            //Device.Android.ToString();
+            //Device.OS.ToString();
+
+            //TargetIdiom.Desktop;
+            //TargetIdiom.Phone;
+            //TargetIdiom.Tablet;
+            //TargetIdiom.TV;
+            //TargetIdiom.Unsupported;
+
+            //TargetPlatform.Android;
+            //TargetPlatform.iOS;
+            //TargetPlatform.Other;
+            //TargetPlatform.Windows;
+            //TargetPlatform.WinPhone;
+
+
+
+        }
 
 		protected override void OnSleep ()
 		{
