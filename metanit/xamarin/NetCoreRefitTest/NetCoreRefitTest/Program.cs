@@ -67,8 +67,8 @@ namespace NetCoreRefitTest
 			 * https://www.codeproject.com/Articles/986460/What-is-Automapper
 			 * 
 			 Can you give some real time scenarios of the use of Automapper?
-				When you are moving data from ViewModel to Model in projects like MVC.
-				When you are moving data from DTO to Model or entity objects and vice versa.
+				 - When you are moving data from ViewModel to Model in projects like MVC.
+				 - When you are moving data from DTO to Model or entity objects and vice versa.
 			 *
 			 * https://www.codeproject.com/Articles/814869/AutoMapper-tips-and-tricks
 			 Most developers aren’t using AutoMapper to its full potential, rarely straying away from Mapper.Map.
