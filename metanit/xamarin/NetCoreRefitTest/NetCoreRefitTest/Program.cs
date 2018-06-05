@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +14,10 @@ namespace NetCoreRefitTest
     {
 		public static void TestJsonServerAsync()
 		{
+			// Test Refit
+			// https://github.com/reactiveui/refit
+			// 
+
 			var jsonServerClient = new HttpClient()
 			{
 				BaseAddress = new Uri("http://jsonplaceholder.typicode.com")
@@ -32,12 +38,49 @@ namespace NetCoreRefitTest
 			Console.WriteLine(taskstr.Result);
 
 			List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(taskstr.Result);
-			//Posts posts = new JavaScriptSerializer().Deserialize<Posts>(taskstr.Result);
 
 			foreach (var p in posts)
 			{
 				Console.WriteLine(p.id + " " + p.title);
 			}
+
+
+			// Test Automapper
+			// https://github.com/AutoMapper/AutoMapper
+			// 
+			Mapper.Initialize(cfg => {
+				cfg.CreateMap<Post, PostExpanded>()
+					.ForMember(m => m.FullInfo, opt => opt.MapFrom(src => string.Join(" ", new List<string>() { src.id, src.title, src.userId, src.body })))
+					.ForMember(m => m.SortedBody, opt => opt.MapFrom(src => String.Concat(src.body.OrderBy(c => c))))
+					.ForMember(m => m.BodySymbolCount, opt => opt.MapFrom(src => src.body.Length + src.title.Length));
+			});
+
+			var autoMapperArray = new List<PostExpanded>();
+			foreach (var p in posts)
+			{
+				autoMapperArray.Add(Mapper.Map<Post, PostExpanded>(p));
+			}
+
+			autoMapperArray.ForEach(p => Console.WriteLine(p.BodySymbolCount + " - " + p.SortedBody.Substring(0, 90)));
+
+			/*
+			 * https://www.codeproject.com/Articles/986460/What-is-Automapper
+			 * 
+			 Can you give some real time scenarios of the use of Automapper?
+				When you are moving data from ViewModel to Model in projects like MVC.
+				When you are moving data from DTO to Model or entity objects and vice versa.
+			 *
+			 * https://www.codeproject.com/Articles/814869/AutoMapper-tips-and-tricks
+			 Most developers aren’t using AutoMapper to its full potential, rarely straying away from Mapper.Map.
+			 There are a multitude of useful tidbits, including; 
+			 - Projection, 
+			 - Configuration Validation, 
+			 - Custom Conversion, 
+			 - Value Resolvers,
+			 - Null Substitution, 
+			 which can help simplify complex logic when used correctly.
+
+			 */
 		}
 
 		public void Test()
