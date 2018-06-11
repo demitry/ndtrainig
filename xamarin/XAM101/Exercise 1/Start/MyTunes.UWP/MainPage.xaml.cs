@@ -14,21 +14,25 @@ namespace MyTunes
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
+		{
             base.OnNavigatedTo(e);
 
-            var tempData = Enumerable.Range(1, 3).Select(i =>
-            {
-                return new
-                {
-                    Name = "Song" + i,
-                    Artist = "Artist" + i,
-                    Album = "Album" + i
-                };
-            }).ToList();
+			//var tempData = Enumerable.Range(1, 3).Select(i =>
+			//{
+			//    return new
+			//    {
+			//        Name = "Song" + i,
+			//        Artist = "Artist" + i,
+			//        Album = "Album" + i
+			//    };
+			//}).ToList();
 
-            this.DataContext = tempData;
-        }
+			//this.DataContext = tempData;
+
+			var data = await SongLoader.Load();
+
+			DataContext = data.ToList();
+		}
     }
 }
