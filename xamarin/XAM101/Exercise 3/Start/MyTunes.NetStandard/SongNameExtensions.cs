@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Net.Http;
+
+//using System.Net.Http;
 
 /*
  * Visual Studio is warning us about our use of the HttpClient type.
@@ -16,7 +17,7 @@ namespace MyTunes
 	public static class SongExtensions
 	{
 
-		static HttpClient httpClient = new HttpClient();
+		//static HttpClient httpClient = new HttpClient();
 
 		public static string RuinSongName(this string songName)
 		{
