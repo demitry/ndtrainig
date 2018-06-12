@@ -70,9 +70,9 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyTunes.Shared\MyTunes.Shared.csproj">
-      <Project>{03B1228D-B101-4139-AB4A-5BB87B8B4C0B}</Project>
-      <Name>MyTunes.Shared</Name>
+    <ProjectReference Include="..\MyTunes.NetStandard\MyTunes.NetStandard.csproj">
+      <Project>{d0fd5fd3-04d9-4494-8fb0-18c1a919d59a}</Project>
+      <Name>MyTunes.NetStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
