@@ -52,6 +52,12 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyTunes.NetStandard\MyTunes.NetStandard.csproj">
+      <Project>{d0fd5fd3-04d9-4494-8fb0-18c1a919d59a}</Project>
+      <Name>MyTunes.NetStandard</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

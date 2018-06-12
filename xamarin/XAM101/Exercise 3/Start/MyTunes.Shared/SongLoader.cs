@@ -8,38 +8,45 @@ using System.Threading.Tasks;
 
 namespace MyTunes
 {
-    public static class SongLoader
-    {
-        const string Filename = "songs.json";
+	public static class SongLoader
+	{
+		const string Filename = "songs.json";
 
-        public static async Task<IEnumerable<Song>> Load()
-        {
-            using (var reader = new StreamReader(OpenData()))
-            {
-                return JsonConvert.DeserializeObject<List<Song>>(await reader.ReadToEndAsync());
-            }
-        }
+		public static async Task<IEnumerable<Song>> Load()
+		{
+			using (var reader = new StreamReader(OpenData()))
+			{
+				var songs = JsonConvert.DeserializeObject<List<Song>>(await reader.ReadToEndAsync());
 
-        public static IStreamLoader Loader { get; set; }
+				foreach (var song in songs)
+				{
+					song.Name = song.Name.RuinSongName(); // Use the function from the library, change the data.
+				}
 
-        private static Stream OpenData()
-        {
-            if (Loader == null)
-                throw new Exception("Must set platform Loader before calling Load.");
+				return songs;
+			}
+		}
 
-            return Loader.GetStreamForFilename(Filename);
-        }
+		public static IStreamLoader Loader { get; set; }
 
-        const string ResourceName = "MyTunes.Shared.songs.json";
-        public static async Task<IEnumerable<Song>> ImprovedLoad()
-        {
-            var assembly = typeof(SongLoader).GetTypeInfo().Assembly;
-            using (var stream = assembly.GetManifestResourceStream(ResourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                return JsonConvert.DeserializeObject<List<Song>>(await reader.ReadToEndAsync());
-            }
-        }
-    }
+		private static Stream OpenData()
+		{
+			if (Loader == null)
+				throw new Exception("Must set platform Loader before calling Load.");
+
+			return Loader.GetStreamForFilename(Filename);
+		}
+
+		const string ResourceName = "MyTunes.Shared.songs.json";
+		public static async Task<IEnumerable<Song>> ImprovedLoad()
+		{
+			var assembly = typeof(SongLoader).GetTypeInfo().Assembly;
+			using (var stream = assembly.GetManifestResourceStream(ResourceName))
+			using (var reader = new StreamReader(stream))
+			{
+				return JsonConvert.DeserializeObject<List<Song>>(await reader.ReadToEndAsync());
+			}
+		}
+	}
 }
 
