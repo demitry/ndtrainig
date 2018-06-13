@@ -42,7 +42,26 @@ namespace Phoneword
 			this.Content = panel;
 
 			translateButton.Clicked += OnTranslate;
+
+			callButton.Clicked += OnCall;
+
 		}
+		async void OnCall(object sender, System.EventArgs e)
+		{
+			if (await this.DisplayAlert(
+					"Dial a Number",
+					"Would you like to call " + translatedNumber + "?",
+					"Yes",
+					"No"))
+			{
+				var dialer = DependencyService.Get<IDialer>();
+				if (dialer != null)
+				{
+					await dialer.DialAsync(translatedNumber);
+				}
+			}
+		}
+
 
 		private void OnTranslate(object sender, EventArgs e)
 		{
