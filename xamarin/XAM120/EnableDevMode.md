@@ -1,3 +1,5 @@
+NB! How to enable after MUIUI update.
+
 Enabling to developer Mode In Redmi Note 3 :
 
 1: Go to Setting.
@@ -14,7 +16,7 @@ now you will see a Toast message "now you are developer".
 
 2: Now go on Permission in setting and click "install via USB".
 
-=>For Enabling USB Debugging :
+=> For Enabling USB Debugging :
 
 1: Open Settings > Additional settings > Developer options.
 
