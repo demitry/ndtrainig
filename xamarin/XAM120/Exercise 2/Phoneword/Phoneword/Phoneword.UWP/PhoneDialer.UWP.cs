@@ -15,8 +15,7 @@ namespace Phoneword.UWP
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.Calls.CallsPhoneContract", 1,0))
             {
 				// todo: DPOL: How to call from UWP ? 
-				//Windows.ApplicationModel.Calls
-				//	.PhoneCallManager.ShowPhoneCallUI(number, "Phoneword");
+				//Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(number, "Phoneword");
 
                return Task.FromResult(true);
             }
