@@ -12,7 +12,6 @@ namespace FirstApp
 			InitializeComponent();
 
 			//MainPage = new MainPage();
-
 			// The root page of your application
 			var layout = new StackLayout
 			{
