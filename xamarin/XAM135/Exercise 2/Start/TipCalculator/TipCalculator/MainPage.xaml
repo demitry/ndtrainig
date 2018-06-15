@@ -2,28 +2,57 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TipCalculator"
-             x:Class="TipCalculator.MainPage">
+             x:Class="TipCalculator.MainPage"
+			 Padding="40">
 
 	<StackLayout>
 
-		<Label Text="Bill" />
-		<Entry x:Name="billInput" Placeholder="Enter Amount" Keyboard="Numeric" />
+		<StackLayout Orientation="Horizontal" BackgroundColor="Beige">
+			<Label Text="Bill" VerticalOptions="Center" />
+			<Entry x:Name="billInput" Placeholder="Enter Amount" Keyboard="Numeric" />
+		</StackLayout>
 
-		<Label Text="Tip"   />
-		<Label x:Name="tipOutput" Text="0.00" />
+		<StackLayout Orientation="Horizontal" Margin="0,20,0,0" BackgroundColor="AliceBlue">
+			<Label Text="Tip" />
+			<Label x:Name="tipOutput" Text="0.00" />
+		</StackLayout>
 
-		<Label Text="Total" />
-		<Label x:Name="totalOutput" Text="0.00" />
+		<StackLayout Orientation="Horizontal" BackgroundColor="BlanchedAlmond">
+			<Label Text="Total" />
+			<Label x:Name="totalOutput" Text="0.00" />
+		</StackLayout>
 
-		<Label Text="Tip Percentage" />
-        <Label x:Name="tipPercent" Text="15%" />
-        <Slider x:Name="tipPercentSlider" Minimum="0" Maximum="100" Value="15" />
+		<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" BackgroundColor="DarkGoldenrod">
+			<Label Text="Tip Percentage" />
+			<Label x:Name="tipPercent" Text="15%" />
+			
+			<StackLayout Orientation="Vertical" BackgroundColor="Gold">
+				<Label Text="Some " />
+				<Label Text="Text " />
+			</StackLayout>
+			
+			<StackLayout Orientation="Vertical" BackgroundColor="Yellow">
+				<Label Text="Some " />
+				<Label Text="Text " />
+			</StackLayout>
 
-        <Button Text="15%" Clicked="OnNormalTip" />
-        <Button Text="20%" Clicked="OnGenerousTip" />
+			<StackLayout Orientation="Horizontal" BackgroundColor="White">
+				<Label Text="Some " />
+				<Label Text="Text " />
+			</StackLayout>
+		</StackLayout>
 
-        <Button x:Name="roundDown" Text="Round Down" />
-        <Button x:Name="roundUp"   Text="Round Up" />
+		<Slider x:Name="tipPercentSlider" Minimum="0" Maximum="100" Value="15" />
+
+		<StackLayout Orientation="Horizontal" BackgroundColor="Fuchsia">
+			<Button Text="15%" Clicked="OnNormalTip"   HorizontalOptions="CenterAndExpand" />
+			<Button Text="20%" Clicked="OnGenerousTip" HorizontalOptions="CenterAndExpand" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal" BackgroundColor="Wheat">
+			<Button x:Name="roundDown" Text="Round Down" HorizontalOptions="CenterAndExpand" />
+			<Button x:Name="roundUp"   Text="Round Up"   HorizontalOptions="CenterAndExpand" />
+		</StackLayout>
 
 	</StackLayout>
 
