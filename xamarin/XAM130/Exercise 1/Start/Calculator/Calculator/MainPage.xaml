@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage	xmlns="http://xamarin.com/schemas/2014/forms"
 				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-				x:Class="Calculator.MainPage">
+				x:Class="Calculator.MainPage"
+				xmlns:local="clr-namespace:Calculator">
+	<!--Define platform-specific values
+	If you run the application on iOS, you will notice it obscures the status bar. This can be corrected by adjusting the Padding property of MainPage; however we only need this change on iOS - it's not required for Android or Windows.
+	• Use the OnPlatform
+	<T> tag to set the ContentPage.Padding property to a valid Thickness.
+	Set the <T> of OnPlatform<T> to a Thickness value using the x:TypeArguments property. You can set the iOS specific value by setting an On element with a Platform="iOS" attribute. (Android is Platform="Android", Windows is Platform="UWP", and there are several others pre-defined for us). If you don't need to change the value (i.e. you want a default value) then you don't need to supply that platform's On override element.
+	• Run the application on iOS to see the carrier bar now be visible.
+	Run the application on Android or Windows to verify it does not include the padding.	-->	<ContentPage.Padding>		<OnPlatform x:TypeArguments="Thickness">			<On Platform="iOS">0,20,0,0</On>		</OnPlatform>	</ContentPage.Padding>
 
 	<ContentPage.Content>
+		
 		<Grid Padding="5,0" RowSpacing="1" ColumnSpacing="1" BackgroundColor="Black">
 			
 			<Grid.RowDefinitions>
@@ -23,80 +32,97 @@
 			</Grid.ColumnDefinitions>
 
 			<Label x:Name="resultText" Text="0"
-				   FontSize="48" FontAttributes="Bold" 
-				   BackgroundColor="Black" TextColor="White"
+				   FontSize="{x:Static local:SharedResources.LabelFontSize}" 
+				   FontAttributes="Bold" 
+				   BackgroundColor="Black" TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
 				   HorizontalTextAlignment="End" VerticalTextAlignment="Center" 
 				   LineBreakMode="NoWrap" Grid.ColumnSpan="4" />
 
 			<Button Text="7" Clicked="OnSelectNumber"
 					Grid.Row="1" Grid.Column="0"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="8" Clicked="OnSelectNumber"
 					Grid.Row="1" Grid.Column="1"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="9" Clicked="OnSelectNumber"
 					Grid.Row="1" Grid.Column="2"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 
 			<Button Text="4" Clicked="OnSelectNumber"
 					Grid.Row="2" Grid.Column="0"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="5" Clicked="OnSelectNumber"
 					Grid.Row="2" Grid.Column="1"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="6" Clicked="OnSelectNumber"
 					Grid.Row="2" Grid.Column="2"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 
 			<Button Text="1" Grid.Row="3" Clicked="OnSelectNumber"
 					Grid.Column="0"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="2" Clicked="OnSelectNumber" 
 					Grid.Row="3" Grid.Column="1"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36"
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}"
 					BorderRadius="0" />
 			<Button Text="3" Clicked="OnSelectNumber"
 					Grid.Row="3" Grid.Column="2"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="0" Clicked="OnSelectNumber"
 					Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
-					BackgroundColor="White" TextColor="Black"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.NumberBgColor}" 
+					TextColor="{x:Static local:SharedResources.NumberButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 
 			<Button Text="/" Clicked="OnSelectOperator"
 					Grid.Row="1" Grid.Column="3"
-					BackgroundColor="#99cc00" TextColor="White"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="X" Clicked="OnSelectOperator"
 					Grid.Row="2" Grid.Column="3"
-					BackgroundColor="#99cc00" TextColor="White"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="-" Clicked="OnSelectOperator"
 					Grid.Row="3" Grid.Column="3"
-					BackgroundColor="#99cc00" TextColor="White"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 			<Button Text="+" Clicked="OnSelectOperator"
 					Grid.Row="4" Grid.Column="3"
-					BackgroundColor="#99cc00" TextColor="White"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 
 			<Button Text="C" Clicked="OnClear"
 					Grid.Row="5" Grid.Column="0"
-					BackgroundColor="#808080" TextColor="White"
-					FontSize="36" BorderRadius="0" />
+					BackgroundColor="{x:Static local:SharedResources.ClearBgColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="0" />
 
 			<Button Text="=" Clicked="OnCalculate" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
-					BackgroundColor="#99cc00" TextColor="White"
-					FontSize="36" BorderRadius="25" />
+					BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" 
+					TextColor="{x:Static local:SharedResources.OpButtonTextColor}"
+					FontSize="{x:Static local:SharedResources.ButtonFontSize}" BorderRadius="25" />
 
 		</Grid>
 	</ContentPage.Content>
