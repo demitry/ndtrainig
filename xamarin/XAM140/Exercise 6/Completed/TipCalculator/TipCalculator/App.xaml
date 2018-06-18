@@ -12,6 +12,7 @@
 
 			<Style x:Key="infoLabelStyle" BasedOn="{StaticResource baseLabelStyle}" TargetType="Label">
 				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="TextColor" Value="Magenta"/>
 			</Style>
 
 		</ResourceDictionary>
