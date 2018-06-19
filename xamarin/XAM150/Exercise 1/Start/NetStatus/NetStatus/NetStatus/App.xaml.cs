@@ -1,6 +1,8 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace NetStatus
@@ -10,13 +12,27 @@ namespace NetStatus
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new MainPage();
+			MainPage = CrossConnectivity.Current.IsConnected ? (Page) new NetworkViewPage() : new NoNetworkPage();
 		}
 
 		protected override void OnStart ()
 		{
 			// Handle when your app starts
+
+			CrossConnectivity.Current.ConnectivityChanged += HandleConnectivityChanged;		}
+
+		private void HandleConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+		{
+			Type currentPage = this.MainPage.GetType();
+
+			if (e.IsConnected && currentPage != typeof(NetworkViewPage))
+			{
+				this.MainPage = new NetworkViewPage();
+			}
+			else if (!e.IsConnected && currentPage != typeof(NoNetworkPage))
+			{
+				this.MainPage = new NoNetworkPage();
+			}
 		}
 
 		protected override void OnSleep ()
