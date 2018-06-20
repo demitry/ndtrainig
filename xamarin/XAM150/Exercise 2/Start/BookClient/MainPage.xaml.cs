@@ -20,16 +20,18 @@ namespace BookClient
             InitializeComponent();
         }
 
-        async void OnRefresh(object sender, EventArgs e)
-        {
-            var bookCollection = await manager.GetAll();
+		async void OnRefresh(object sender, EventArgs e)
+		{
+			IsBusy = true;
+			var bookCollection = await manager.GetAll();
 
-            foreach (Book book in bookCollection)
-            {
-                if (books.All(b => b.ISBN != book.ISBN))
-                    books.Add(book);
-            }
-        }
+			foreach (Book book in bookCollection)
+			{
+				if (books.All(b => b.ISBN != book.ISBN))
+					books.Add(book);
+			}
+			IsBusy = false;
+		}
 
         async void OnAddNewBook(object sender, EventArgs e)
         {
