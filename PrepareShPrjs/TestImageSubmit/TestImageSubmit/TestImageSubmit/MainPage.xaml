@@ -5,10 +5,11 @@
              x:Class="TestImageSubmit.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-    	<Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+		<!-- Place new controls here -->
+		<Label Text="Welcome to Xamarin.Forms!" HorizontalOptions="Center" VerticalOptions="Start" />
+		<Button x:Name="TakePictureButton" Clicked="TakePictureButton_Clicked" Text="Take From Camera"></Button>
+		<Button x:Name="UploadPictureButton" Clicked="UploadPictureButton_Clicked" Text="Pick a Photo"></Button>
+		<Image x:Name="Image1" HeightRequest="240"/>
+	</StackLayout>
 
 </ContentPage>
